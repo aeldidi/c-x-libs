@@ -12,7 +12,7 @@
 #include <fts.h>
 #include <limits.h>
 
-#include "c.eldidi.org/c/arena"
+#include "c.eldidi.org/x/arena"
 
 extern int errno;
 

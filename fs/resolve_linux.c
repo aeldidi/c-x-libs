@@ -6,8 +6,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "c.eldidi.org/c/arena"
-#include "c.eldidi.org/c/str"
+#include "c.eldidi.org/x/arena"
+#include "c.eldidi.org/x/str"
 
 char*
 get_filename(int fd, Arena* tmp)

@@ -4,10 +4,18 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct Arena Arena;
 
 // process_exec is a cross platform version of UNIX exec(). Only returns if it
 // fails.
 void process_exec(Arena* temp, int argc, char* argv[]);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // PROCESS_H

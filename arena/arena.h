@@ -3,24 +3,24 @@
 #include <inttypes.h>
 #include <stddef.h>
 
-#if defined(__has_builtin)
-#if !__has_builtin(__builtin_longjmp)
-#error "the arena allocator makes use of __builtin_longjmp to jump to an error handler"
-#endif
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 // If we have GCC or Clang, we can get some free optimization and ASAN runtime
 // checking for free by defining this.
+#if !defined(ALLOC_ATTIBUTES)
 #if defined(__has_attribute)
-#if __has_attribute(malloc)
+#if __has_attribute(__malloc__)
 #define ALLOC_ATTRIBUTES                                                      \
-	__attribute((malloc, alloc_size(2, 4), alloc_align(3)))
+	__attribute((__malloc__, alloc_size(2, 4), alloc_align(3)))
 #else
 #define ALLOC_ATTRIBUTES
-#endif // __has_attribute(malloc)
+#endif // __has_attribute(__malloc__)
 #else
 #define ALLOC_ATTRIBUTES
 #endif // defined(__has_attribute)
+#endif // !defined(ALLOC_ATTRIBUTES)
 
 #define ARENA_NOZERO (1 << 0) // disables initializing memory to 0
 
@@ -59,5 +59,9 @@ void* arena_alloc(Arena* a, ptrdiff_t size, ptrdiff_t align, ptrdiff_t count,
 #define arena_make3(a, t, n) (t*)arena_alloc(a, sizeof(t), _Alignof(t), n, 0)
 #define arena_make4(a, t, n, f)                                               \
 	(t*)arena_alloc(a, sizeof(t), _Alignof(t), n, f)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // ARENA_H

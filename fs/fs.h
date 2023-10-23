@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct Arena Arena;
 
 // fs_foreach runs the given function for each file in the given directory.
@@ -27,5 +31,9 @@ bool fs_foreach_file(char* dirname, bool (*fn)(char*, void*), void* arg);
 //
 // The result will be allocated in mem.
 char* fs_resolve(Arena* mem, char* name);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // FS_H
