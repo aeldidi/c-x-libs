@@ -24,7 +24,7 @@ unwind_callback(struct _Unwind_Context* ctx, void* arg)
 
 	// bump up the arena. Since arenas allocate their memory contiguously,
 	// this is like extending the array length.
-	(void)arena_make(mem, uintptr_t);
+	(void)arena_make(b->mem, uintptr_t);
 	b->addresses[b->len] = ip;
 	b->len += 1;
 
@@ -40,6 +40,7 @@ backtrace(Arena* mem, size_t max_addresses, size_t skip)
 			.max_specified  = max_addresses != 0,
 			.max            = max_addresses,
 			.addresses      = arena_make(mem, uintptr_t),
+			.mem            = mem,
 	};
 	_Unwind_Backtrace(unwind_callback, &result);
 	return result;

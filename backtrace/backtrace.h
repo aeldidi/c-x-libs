@@ -24,6 +24,7 @@ typedef struct Backtrace {
 	bool   max_specified;
 	size_t skip;
 	size_t max;
+	Arena* mem;
 } Backtrace;
 
 // backtrace captures a backtrace of the current program, and returns a list of
