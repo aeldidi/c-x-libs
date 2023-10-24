@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "c.eldidi.org/c/arena"
+#include "c.eldidi.org/x/arena"
+#include "c.eldidi.org/x/fs"
 
 void
 process_exec(Arena* temp, int argc, char* argv[])
