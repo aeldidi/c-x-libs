@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include "c.eldidi.org/c/arena"
+#include "c.eldidi.org/x/arena"
 
 char*
 str_format(Arena* mem, char* format, ...)
