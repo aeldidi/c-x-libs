@@ -4,7 +4,6 @@
 #include <unwind.h>
 
 #include "c.eldidi.org/x/arena"
-#include "c.eldidi.org/x/backtrace"
 
 static _Unwind_Reason_Code
 unwind_callback(struct _Unwind_Context* ctx, void* arg)
