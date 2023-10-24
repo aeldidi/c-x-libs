@@ -17,7 +17,7 @@ unwind_callback(struct _Unwind_Context* ctx, void* arg)
 		return _URC_NO_REASON;
 	}
 
-	if (b->max_specified && b->len == b->max_addresses) {
+	if (b->max_specified && b->len == b->max) {
 		b->status = BACKTRACE_TRUNCATED;
 		return _URC_END_OF_STACK;
 	}
