@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <inttypes.h>
 #include <stddef.h>
+#include <string.h>
 
 #include <fcntl.h>
 #include <sys/stat.h>
