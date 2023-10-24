@@ -9,11 +9,6 @@
 #include "c.eldidi.org/x/arena"
 #include "c.eldidi.org/x/str"
 
-char*
-get_filename(int fd, Arena* tmp)
-{
-}
-
 #if !defined(O_PATH)
 #define O_PATH 2097152
 #endif
@@ -23,6 +18,7 @@ fs_resolve(Arena* mem, char* name)
 {
 	assert(mem != NULL);
 	assert(name != NULL);
+	Arena tmp = *mem;
 
 	size_t size = strlen(name);
 	if (size < 1 || name[0] == '/') {
