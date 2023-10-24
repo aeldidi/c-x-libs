@@ -31,14 +31,14 @@ fs_resolve(Arena* mem, char* name)
 		return NULL;
 	}
 
-	char*       path = str_format(tmp, "/proc/self/fd/%d", fd);
+	char*       path = str_format(&tmp, "/proc/self/fd/%d", fd);
 	struct stat s    = {};
 	if (lstat(path, &s) < 0) {
 		return NULL;
 	}
 
 	size_t  len    = s.st_size + 1;
-	char*   result = arena_make(tmp, char, len);
+	char*   result = arena_make(&tmp, char, len);
 	ssize_t nread  = readlink(path, result, len);
 	if (nread < 0) {
 		return NULL;
