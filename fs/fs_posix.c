@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <fts.h>
 #include <limits.h>
+#include <sys/stat.h>
 
 #include "c.eldidi.org/x/arena"
 
