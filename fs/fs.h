@@ -17,8 +17,8 @@ typedef struct Arena Arena;
 typedef struct FileMetadata {
 	// Either FS_TYPE_FILE, FS_TYPE_DIR, or FS_TYPE_LINK.
 	int file_type;
-	// The length of the file in bytes.
-	size_t len;
+	// The size of the file in bytes.
+	size_t size;
 	bool   readonly;
 } FileMetadata;
 
