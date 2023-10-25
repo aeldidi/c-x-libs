@@ -10,7 +10,6 @@ unwind_callback(struct _Unwind_Context* ctx, void* arg)
 {
 	Backtrace* b  = arg;
 	uintptr_t  ip = _Unwind_GetIP(ctx);
-
 	if ((void*)ip == NULL) {
 		return _URC_END_OF_STACK;
 	}
