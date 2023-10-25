@@ -15,6 +15,9 @@
 #define O_PATH 2097152
 #endif
 
+// This is implemented here despite the fact that it could be implemented just
+// in terms of stat and whatnot because the /proc/self/fd trick can be used to
+// simply retrieve the full path.
 char*
 fs_resolve(Arena* mem, char* name)
 {
@@ -40,7 +43,7 @@ fs_resolve(Arena* mem, char* name)
 	}
 
 	size_t  len    = s.st_size + 1;
-	char*   result = arena_make(&tmp, char, len);
+	char*   result = arena_make(mem, char, len);
 	ssize_t nread  = readlink(path, result, len);
 	if (nread < 0) {
 		return NULL;

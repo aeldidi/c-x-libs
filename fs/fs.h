@@ -10,6 +10,32 @@ extern "C" {
 
 typedef struct Arena Arena;
 
+#define FS_TYPE_FILE (0)
+#define FS_TYPE_DIR  (1)
+#define FS_TYPE_LINK (2)
+
+typedef struct FileMetadata {
+	// Either FS_TYPE_FILE, FS_TYPE_DIR, or FS_TYPE_LINK.
+	int file_type;
+	// The length of the file in bytes.
+	size_t len;
+	bool   readonly;
+} FileMetadata;
+
+typedef struct {
+	int          status;
+	FileMetadata result;
+} StatResult;
+
+// Returns the metadata for the filesystem entry specified by path.
+//
+// Currently, this is stat() on UNIX systems, and GetFileInformationByHandle()
+// on Windows.
+//
+// In the return value, status is 0 on success, and a negative error code on
+// failure.
+StatResult fs_metadata(char* path);
+
 // fs_foreach runs the given function for each file in the given directory.
 // This function can return true to continue iteration, or false to stop
 // iteration (equivalent to "continue" and "break").

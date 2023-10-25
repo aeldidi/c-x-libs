@@ -41,6 +41,33 @@ fs_foreach_file(char* dirname, bool (*fn)(char*, void*), void* arg)
 	return fts_close(dir) == 0;
 }
 
+StatResult
+fs_metadata(char* path)
+{
+	StatResult  result = {};
+	struct stat s;
+	int         ret = stat(path, &s);
+	if (ret < 0) {
+		result.status = -1;
+		return result;
+	}
+
+	if (S_ISREG(s.st_mode)) {
+		result.result.file_type = FS_TYPE_FILE;
+	} else if (S_ISDIR(s.st_mode)) {
+		result.result.file_type = FS_TYPE_DIR;
+	} else if (S_ISLNK(s.st_mode)) {
+		result.result.file_type = FS_TYPE_LINK;
+	} else {
+		fprintf(stderr, "TODO: other file_types.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	result.result.size     = s.st_size;
+	result.result.readonly = s.st_mode & (S_IRUSR | S_IXUSR);
+	return result;
+}
+
 // realpath(3) has stupid arbitrary limits. We can do better.
 #if defined(__linux__)
 #include "./resolve_linux.c"
