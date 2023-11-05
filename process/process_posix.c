@@ -16,7 +16,7 @@ process_exec(Arena* mem, Arena scratch, int argc, char* argv[])
 		exec_argv[i] = argv[i];
 	}
 
-	char* program = fs_resolve(mem, &scratch, exec_argv[0]);
+	char* program = fs_resolve(mem, scratch, exec_argv[0]);
 	if (program == NULL) {
 		return;
 	}
