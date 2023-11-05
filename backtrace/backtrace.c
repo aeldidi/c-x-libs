@@ -4,16 +4,13 @@
 #include <unwind.h>
 
 #include "c.eldidi.org/x/arena"
+#include "c.eldidi.org/x/slice"
 
 static _Unwind_Reason_Code
 unwind_callback(struct _Unwind_Context* ctx, void* arg)
 {
 	Backtrace* b  = arg;
 	uintptr_t  ip = _Unwind_GetIP(ctx);
-	if ((void*)ip == NULL) {
-		return _URC_END_OF_STACK;
-	}
-
 	if ((void*)ip == NULL) {
 		return _URC_END_OF_STACK;
 	}
@@ -29,12 +26,7 @@ unwind_callback(struct _Unwind_Context* ctx, void* arg)
 		return _URC_END_OF_STACK;
 	}
 
-	// bump up the arena. Since arenas allocate their memory contiguously,
-	// this is like extending the array length.
-	(void)arena_make(b->mem, uintptr_t);
-	b->addresses[b->len] = ip;
-	b->len += 1;
-
+	*slice_push(b->mem, b) = ip;
 	return _URC_NO_REASON;
 }
 
@@ -46,7 +38,6 @@ backtrace(Arena* mem, size_t max_addresses, size_t skip)
 			.skip           = skip,
 			.max_specified  = max_addresses != 0,
 			.max            = max_addresses,
-			.addresses      = arena_make(mem, uintptr_t),
 			.mem            = mem,
 	};
 	_Unwind_Backtrace(unwind_callback, &result);

@@ -19,7 +19,7 @@ slice_grow(Arena* mem, void* slice, const size_t size)
 		replica.cap = 1;
 	}
 	ptrdiff_t align = 16;
-	void*     data  = arena_alloc(mem, 2 * size, align, replica.cap);
+	void*     data  = arena_alloc(mem, 2 * size, align, replica.cap, 0);
 	replica.cap *= 2;
 	if (replica.len != 0) {
 		memcpy(data, replica.data, size * replica.len);

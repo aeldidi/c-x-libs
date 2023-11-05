@@ -13,18 +13,20 @@ typedef struct Arena Arena;
 #define BACKTRACE_TRUNCATED (1)
 
 typedef struct Backtrace {
-	int64_t status;
-	size_t  len;
+	// Slice
 	union {
+		uintptr_t* data;
 		char*      error_reason;
-		uintptr_t* addresses;
 	};
+	size_t len;
+	size_t cap;
 
-	bool   skip_specified;
-	bool   max_specified;
-	size_t skip;
-	size_t max;
-	Arena* mem;
+	int64_t status;
+	bool    skip_specified;
+	bool    max_specified;
+	size_t  skip;
+	size_t  max;
+	Arena*  mem;
 } Backtrace;
 
 // backtrace captures a backtrace of the current program, and returns a list of
@@ -36,7 +38,7 @@ typedef struct Backtrace {
 // Debug information is not required for this, but it requires the unwind API
 // defined at <https://itanium-cxx-abi.github.io/cxx-abi/abi-eh.html>.
 //
-// On success, len is the number of addresses returned, and addresses points to
+// On success, len is the number of addresses returned, and data points to
 // a newly allocated array of addresses, starting at the function which called
 // backtrace.
 //
