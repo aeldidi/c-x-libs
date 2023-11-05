@@ -11,7 +11,7 @@
 void
 process_exec(Arena* mem, Arena scratch, int argc, char* argv[])
 {
-	char** exec_argv = arena_make(temp, char*, argc + 1);
+	char** exec_argv = arena_make(mem, char*, argc + 1);
 	for (int i = 0; i < argc; i += 1) {
 		exec_argv[i] = argv[i];
 	}
