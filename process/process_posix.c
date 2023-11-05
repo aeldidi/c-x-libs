@@ -65,7 +65,7 @@ process_spawn(Arena scratch, int argc, char* argv[])
 	close(pipefd[1]);
 	uint8_t a = 0;
 	// if this succeeds, the exec must have failed.
-	if (read(pipefd[0], &a, sizeof(uint8_t)) == 0) {
+	if (read(pipefd[0], &a, sizeof(uint8_t)) == sizeof(uint8_t)) {
 		result.status = PROCESS_SPAWN_FAILURE;
 		return result;
 	}
