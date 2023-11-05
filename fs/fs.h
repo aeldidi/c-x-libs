@@ -4,11 +4,11 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include "c.eldidi.org/x/arena"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef struct Arena Arena;
 
 #define FS_TYPE_FILE (0)
 #define FS_TYPE_DIR  (1)
@@ -56,7 +56,7 @@ bool fs_foreach_file(char* dirname, bool (*fn)(char*, void*), void* arg);
 // Returns NULL if it can't for some reason.
 //
 // The result will be allocated in mem.
-char* fs_resolve(Arena* mem, char* name);
+char* fs_resolve(Arena* mem, Arena scratch, char* name);
 
 #ifdef __cplusplus
 }

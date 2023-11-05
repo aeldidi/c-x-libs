@@ -19,11 +19,10 @@
 // in terms of stat and whatnot because the /proc/self/fd trick can be used to
 // simply retrieve the full path.
 char*
-fs_resolve(Arena* mem, char* name)
+fs_resolve(Arena* mem, Arena scratch, char* name)
 {
 	assert(mem != NULL);
 	assert(name != NULL);
-	Arena tmp = *mem;
 
 	size_t size = strlen(name);
 	if (size < 1 || name[0] == '/') {
@@ -36,7 +35,7 @@ fs_resolve(Arena* mem, char* name)
 		return NULL;
 	}
 
-	char*       path = str_format(&tmp, "/proc/self/fd/%d", fd);
+	char*       path = str_format(&scratch, "/proc/self/fd/%d", fd);
 	struct stat s    = {};
 	if (lstat(path, &s) < 0) {
 		return NULL;

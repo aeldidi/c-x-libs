@@ -1,6 +1,7 @@
 #include <inttypes.h>
 #include <setjmp.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
 
 void*
@@ -19,6 +20,8 @@ arena_alloc(Arena* a, ptrdiff_t size, ptrdiff_t align, ptrdiff_t count,
 	if (flags & ARENA_NOZERO) {
 		return p;
 	}
+
+	// printf("%zu\n", total);
 
 	return memset(p, 0, total);
 }
