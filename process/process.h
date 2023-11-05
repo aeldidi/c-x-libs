@@ -12,7 +12,7 @@ typedef struct Arena Arena;
 
 // process_exec is a cross platform version of UNIX exec(). Only returns if it
 // fails.
-void process_exec(Arena* temp, Arena scratch, int argc, char* argv[]);
+void process_exec(Arena* mem, Arena scratch, int argc, char* argv[]);
 
 #ifdef __cplusplus
 }
