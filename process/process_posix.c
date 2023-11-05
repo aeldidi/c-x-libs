@@ -52,7 +52,7 @@ process_spawn(Arena scratch, int argc, char* argv[])
 		return result;
 	}
 
-	if (ret != 0) {
+	if (ret == 0) {
 		// child
 		close(pipefd[0]);
 
