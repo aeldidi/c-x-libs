@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "c.eldidi.org/x/arena"
+#include "c.eldidi.org/x/hash"
 #include "github.com/aeldidi/encoding/utf8"
 
 char*
@@ -63,4 +64,28 @@ str_split(Arena* mem, const char* str, const uint32_t c)
 	}
 
 	return result;
+}
+
+uintptr_t
+strpool_add(Arena* mem, Strpool* pool, const char* string)
+{
+	for (uint64_t h = fnv_1a_str(string); *m; h <<= 2) {
+		if (equals(string, (*m)->key)) {
+			return (uintptr_t)m;
+		}
+		m = &(*m)->child[h >> 62];
+	}
+	*m        = arena_make(mem, Strpool);
+	(*m)->key = string;
+	return (uintptr_t)m;
+}
+
+char*
+strpool_get(Strpool* pool, const uintptr_t handle)
+{
+	if ((void*)handle == NULL) {
+		return NULL;
+	}
+
+	return ((Strpool*)handle)->key;
 }
