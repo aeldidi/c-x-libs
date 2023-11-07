@@ -47,8 +47,8 @@ struct Map {
 #define hashmap_get(arena, map, key)                                          \
 	({                                                                    \
 		for (uint64_t h = map->hash(key); *map; h <<= 2) {            \
-			if (map->equals(key, (*m)->key)) {                    \
-				return &(*m)->value;                          \
+			if (map->equals(key, (*map)->key)) {                  \
+				return &(*map)->value;                        \
 			}                                                     \
 			map = &(*map)->child[h >> 62];                        \
 		}                                                             \
