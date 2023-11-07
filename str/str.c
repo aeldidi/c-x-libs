@@ -66,6 +66,7 @@ str_split(Arena* mem, const char* str, const uint32_t c)
 	return result;
 }
 
+/*
 uintptr_t
 strpool_add(Arena* mem, Strpool* pool, const char* string)
 {
@@ -89,3 +90,4 @@ strpool_get(Strpool* pool, const uintptr_t handle)
 
 	return ((Strpool*)handle)->key;
 }
+*/

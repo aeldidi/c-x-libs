@@ -29,6 +29,7 @@ struct Strpool {
 	char*    key;
 };
 
+/*
 // strpool_add adds a string into an intern pool, returning a handle to the
 // string.
 uintptr_t strpool_add(Arena* mem, Strpool* pool, const char* string);
@@ -36,6 +37,7 @@ uintptr_t strpool_add(Arena* mem, Strpool* pool, const char* string);
 // strpool_get retrieves a string from the pool. If the handle is 0, returns
 // NULL.
 char* strpool_get(Strpool* pool, const uintptr_t handle);
+*/
 
 #ifdef __cplusplus
 }
