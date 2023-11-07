@@ -23,10 +23,11 @@ typedef struct StrSlice {
 // str_split splits the string by the codepoint c.
 StrSlice str_split(Arena* mem, const char* str, const uint32_t c);
 
-typedef struct Strpool {
+typedef struct Strpool Strpool;
+struct Strpool {
 	Strpool* child[4];
 	char*    key;
-} Strpool;
+};
 
 // strpool_add adds a string into an intern pool, returning a handle to the
 // string.
