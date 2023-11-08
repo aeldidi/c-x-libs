@@ -8,8 +8,6 @@
 #include "c.eldidi.org/x/arena"
 #include "c.eldidi.org/x/hash"
 
-typedef struct Arena Arena;
-
 // ======== Slice ======== //
 
 // A slice is any struct which has a len, cap, and data member laid out like
@@ -37,44 +35,45 @@ void slice_grow(Arena* mem, void* slice, const size_t size);
 // A Map is any struct which has the following members laid out like so:
 // If your keytype is char*, you can omit the hash and equals function, and use
 // map_get instead of hashmap_get.
-typedef struct Map {
+typedef struct Map Map;
+struct Map {
 	Map*        child[4];
 	map_keytype key;
 	map_valtype value;
 	uint64_t (*hash)(map_keytype);
 	bool (*equals)(map_keytype, map_keytype);
-} Map;
+};
 
 #define hashmap_get(arena, map, key)                                          \
 	({                                                                    \
-		for (uint64_t h = map->hash(key); *m; h <<= 2) {              \
-			if (map->equals(key, (*m)->key)) {                    \
-				return &(*m)->value;                          \
+		for (uint64_t h = map->hash(key); *map; h <<= 2) {            \
+			if (map->equals(key, (*map)->key)) {                  \
+				return &(*map)->value;                        \
 			}                                                     \
-			m = &(*m)->child[h >> 62];                            \
+			map = &(*map)->child[h >> 62];                        \
 		}                                                             \
 		if (!perm) {                                                  \
 			return 0;                                             \
 		}                                                             \
-		*m        = arena_make(arena, map);                           \
-		(*m)->key = key;                                              \
-		&(*m)->value;                                                 \
+		*map        = arena_make(arena, map);                         \
+		(*map)->key = key;                                            \
+		&(*map)->value;                                               \
 	})
 
 #define map_get(arena, map, key)                                              \
 	({                                                                    \
-		for (uint64_t h = fnv_1a_str(key); *m; h <<= 2) {             \
-			if (strcmp(key, (*m)->key)) {                         \
-				return &(*m)->value;                          \
+		for (uint64_t h = fnv_1a_str(key); *map; h <<= 2) {           \
+			if (strcmp(key, (*map)->key)) {                       \
+				return &(*map)->value;                        \
 			}                                                     \
-			m = &(*m)->child[h >> 62];                            \
+			map = &(*map)->child[h >> 62];                        \
 		}                                                             \
 		if (!perm) {                                                  \
 			return 0;                                             \
 		}                                                             \
-		*m        = arena_make(arena, map);                           \
-		(*m)->key = key;                                              \
-		&(*m)->value;                                                 \
+		*map        = arena_make(arena, map);                         \
+		(*map)->key = key;                                            \
+		&(*map)->value;                                               \
 	})
 
 #endif // MAP_H

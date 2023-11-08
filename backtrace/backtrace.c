@@ -4,7 +4,7 @@
 #include <unwind.h>
 
 #include "c.eldidi.org/x/arena"
-#include "c.eldidi.org/x/slice"
+#include "c.eldidi.org/x/containers"
 
 static _Unwind_Reason_Code
 unwind_callback(struct _Unwind_Context* ctx, void* arg)

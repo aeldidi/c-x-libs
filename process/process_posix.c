@@ -5,13 +5,15 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include <stdlib.h>
 #include <unistd.h>
 
 #include "c.eldidi.org/x/arena"
+#include "c.eldidi.org/x/containers"
 #include "c.eldidi.org/x/fs"
-#include "c.eldidi.org/x/slice"
 
 void
 process_exec(Arena* mem, Arena scratch, int argc, char* argv[])
