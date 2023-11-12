@@ -44,6 +44,46 @@ struct Map {
 	bool (*equals)(map_keytype, map_keytype);
 };
 
+#define make_hashmap_get_func(name, maptype, keytype, valtype)                \
+	valtype* name(Arena* mem, maptype* map, keytype k)                    \
+	{                                                                     \
+                                                                              \
+		for (uint64_t h = map->hash(k); *map; h <<= 2) {              \
+			if (map->equals(k, (*map)->key)) {                    \
+				return &(*map)->value;                        \
+			}                                                     \
+			map = &(*map)->child[h >> 62];                        \
+		}                                                             \
+                                                                              \
+		if (!arena) {                                                 \
+			return NULL;                                          \
+		}                                                             \
+                                                                              \
+		*map        = arena_make(arena, map);                         \
+		(*map)->key = key;                                            \
+		return &(*map)->value;                                        \
+	}
+
+#define make_map_get_func(name, maptype, keytype, valtype)                    \
+	valtype* name(Arena* mem, maptype* map, keytype k)                    \
+	{                                                                     \
+                                                                              \
+		for (uint64_t h = fnv_1a_str(k); *map; h <<= 2) {             \
+			if (strcmp(k, (*map)->key) == 0) {                    \
+				return &(*map)->value;                        \
+			}                                                     \
+			map = &(*map)->child[h >> 62];                        \
+		}                                                             \
+                                                                              \
+		if (!arena) {                                                 \
+			return NULL;                                          \
+		}                                                             \
+                                                                              \
+		*map        = arena_make(arena, map);                         \
+		(*map)->key = key;                                            \
+		return &(*map)->value;                                        \
+	}
+
 #define hashmap_get(arena, map, k)                                            \
 	({                                                                    \
 		for (uint64_t h = map->hash(k); *map; h <<= 2) {              \
