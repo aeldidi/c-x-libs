@@ -85,6 +85,7 @@ struct Map {
 			return NULL;                                          \
 		}                                                             \
                                                                               \
+		printf("adding '%s' at %p", k, map);                          \
 		*map        = arena_make(arena, maptype);                     \
 		(*map)->key = k;                                              \
 		return &(*map)->value;                                        \
