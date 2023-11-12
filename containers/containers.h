@@ -69,7 +69,8 @@ struct Map {
 	{                                                                     \
                                                                               \
 		for (uint64_t h = fnv_1a_str(k); *map; h <<= 2) {             \
-			if (strcmp(k, (*map)->key) == 0) {                    \
+			if ((*map)->key != NULL &&                            \
+					strcmp(k, (*map)->key) == 0) {        \
 				return &(*map)->value;                        \
 			}                                                     \
 			map = &(*map)->child[h >> 62];                        \
