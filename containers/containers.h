@@ -53,11 +53,12 @@ struct Map {
 			map = &(*map)->child[h >> 62];                        \
 		}                                                             \
 		if (!arena) {                                                 \
-			return NULL;                                          \
+			NULL;                                                 \
+		} else {                                                      \
+			*map        = arena_make(arena, map);                 \
+			(*map)->key = key;                                    \
+			&(*map)->value;                                       \
 		}                                                             \
-		*map        = arena_make(arena, map);                         \
-		(*map)->key = key;                                            \
-		&(*map)->value;                                               \
 	})
 
 #define map_get(arena, map, k)                                                \
@@ -69,11 +70,12 @@ struct Map {
 			map = &(*map)->child[h >> 62];                        \
 		}                                                             \
 		if (!arena) {                                                 \
-			return NULL;                                          \
+			NULL;                                                 \
+		} else {                                                      \
+			*map        = arena_make(arena, map);                 \
+			(*map)->key = k;                                      \
+			&(*map)->value;                                       \
 		}                                                             \
-		*map        = arena_make(arena, map);                         \
-		(*map)->key = k;                                              \
-		&(*map)->value;                                               \
 	})
 
 #endif // MAP_H
