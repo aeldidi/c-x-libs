@@ -59,7 +59,7 @@ struct Map {
 			return NULL;                                          \
 		}                                                             \
                                                                               \
-		*map        = arena_make(arena, map);                         \
+		*map        = arena_make(arena, maptype);                     \
 		(*map)->key = k;                                              \
 		return &(*map)->value;                                        \
 	}
@@ -79,7 +79,7 @@ struct Map {
 			return NULL;                                          \
 		}                                                             \
                                                                               \
-		*map        = arena_make(arena, map);                         \
+		*map        = arena_make(arena, maptype);                     \
 		(*map)->key = k;                                              \
 		return &(*map)->value;                                        \
 	}
