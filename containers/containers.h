@@ -44,35 +44,35 @@ struct Map {
 	bool (*equals)(map_keytype, map_keytype);
 };
 
-#define hashmap_get(arena, map, key)                                          \
+#define hashmap_get(arena, map, k)                                            \
 	({                                                                    \
-		for (uint64_t h = map->hash(key); *map; h <<= 2) {            \
-			if (map->equals(key, (*map)->key)) {                  \
+		for (uint64_t h = map->hash(k); *map; h <<= 2) {              \
+			if (map->equals(k, (*map)->key)) {                    \
 				return &(*map)->value;                        \
 			}                                                     \
 			map = &(*map)->child[h >> 62];                        \
 		}                                                             \
-		if (!perm) {                                                  \
-			return 0;                                             \
+		if (!arena) {                                                 \
+			return NULL;                                          \
 		}                                                             \
 		*map        = arena_make(arena, map);                         \
 		(*map)->key = key;                                            \
 		&(*map)->value;                                               \
 	})
 
-#define map_get(arena, map, key)                                              \
+#define map_get(arena, map, k)                                                \
 	({                                                                    \
-		for (uint64_t h = fnv_1a_str(key); *map; h <<= 2) {           \
-			if (strcmp(key, (*map)->key)) {                       \
+		for (uint64_t h = fnv_1a_str(k); *map; h <<= 2) {             \
+			if (strcmp(k, (*map)->key)) {                         \
 				return &(*map)->value;                        \
 			}                                                     \
 			map = &(*map)->child[h >> 62];                        \
 		}                                                             \
-		if (!perm) {                                                  \
-			return 0;                                             \
+		if (!arena) {                                                 \
+			return NULL;                                          \
 		}                                                             \
 		*map        = arena_make(arena, map);                         \
-		(*map)->key = key;                                            \
+		(*map)->key = k;                                              \
 		&(*map)->value;                                               \
 	})
 
