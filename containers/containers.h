@@ -1,5 +1,6 @@
 #ifndef MAP_H
 #define MAP_H
+#include <assert.h>
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -48,6 +49,7 @@ struct Map {
 	valtype* name(Arena* arena, maptype** map, keytype k)                 \
 	{                                                                     \
                                                                               \
+		assert(map != NULL);                                          \
 		for (uint64_t h = map->hash(k); *map; h <<= 2) {              \
 			if (map->equals(k, (*map)->key)) {                    \
 				return &(*map)->value;                        \
@@ -67,12 +69,15 @@ struct Map {
 #define make_map_get_func(name, maptype, keytype, valtype)                    \
 	valtype* name(Arena* arena, maptype** map, keytype k)                 \
 	{                                                                     \
-                                                                              \
+		assert(map != NULL);                                          \
 		for (uint64_t h = fnv_1a_str(k); *map; h <<= 2) {             \
+			printf("map = %p\n", map);                            \
 			if ((*map)->key != NULL &&                            \
 					strcmp(k, (*map)->key) == 0) {        \
+				printf("found\n");                            \
 				return &(*map)->value;                        \
 			}                                                     \
+			printf("nuh uh\n");                                   \
 			map = &(*map)->child[h >> 62];                        \
 		}                                                             \
                                                                               \
