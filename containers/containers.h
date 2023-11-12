@@ -45,7 +45,7 @@ struct Map {
 };
 
 #define make_hashmap_get_func(name, maptype, keytype, valtype)                \
-	valtype* name(Arena* mem, maptype* map, keytype k)                    \
+	valtype* name(Arena* mem, maptype** map, keytype k)                   \
 	{                                                                     \
                                                                               \
 		for (uint64_t h = map->hash(k); *map; h <<= 2) {              \
@@ -65,7 +65,7 @@ struct Map {
 	}
 
 #define make_map_get_func(name, maptype, keytype, valtype)                    \
-	valtype* name(Arena* mem, maptype* map, keytype k)                    \
+	valtype* name(Arena* mem, maptype** map, keytype k)                   \
 	{                                                                     \
                                                                               \
 		for (uint64_t h = fnv_1a_str(k); *map; h <<= 2) {             \
