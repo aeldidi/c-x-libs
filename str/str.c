@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <inttypes.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -26,10 +27,16 @@ str_format(Arena* mem, const char* format, ...)
 StrSlice
 str_split(Arena* mem, const char* str, const uint32_t c)
 {
+	assert(mem != NULL);
+	assert(str != NULL);
+	StrSlice result = {};
+	if (strlen(str) == 0) {
+		return result;
+	}
+
 	// Every string is beside each other in memory. If I call
 	// split("a/b/c", '/') the strings will be "a\0b\0c\0" followed by an
 	// array of pointers to them.
-	StrSlice    result    = {};
 	size_t      len       = strlen(str) + 1;
 	const char* s         = str;
 	size_t      s_len     = 0;
