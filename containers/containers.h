@@ -49,6 +49,7 @@ typedef bool     map_equals_function(map_keytype, map_keytype);
 // function, since we use char* as the key type and strcmp as the equals
 // function. Feel free to copy and paste this, and modify it for your own
 // types as needed.
+#if 0
 map_valtype*
 map_get_function(Arena* arena, Map** map, map_keytype k)
 {
@@ -68,11 +69,6 @@ map_get_function(Arena* arena, Map** map, map_keytype k)
 	(*map)->key = k;
 	return &(*map)->value;
 }
-
-// Assuming your function has a signature similar to map_get_function, you can
-// use this as a convenience macro similarly to slice_push.
-//
-// This macro assumes the function to get from type Map is Map_get.
-#define map_get(arena, map_type, map, key) map_type##_get(arena, map, key)
+#endif
 
 #endif // MAP_H
