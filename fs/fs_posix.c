@@ -42,6 +42,34 @@ fs_foreach_file(char* dirname, bool (*fn)(char*, void*), void* arg)
 	return fts_close(dir) == 0;
 }
 
+bool
+fs_foreach_dir(char* dirname, bool (*fn)(char*, void*), void* arg)
+{
+	assert(dirname != NULL);
+	assert(fn != NULL);
+
+	char* paths[] = {dirname, NULL};
+	FTS*  dir     = fts_open(
+			     paths, FTS_PHYSICAL | FTS_NOCHDIR | FTS_NOSTAT, NULL);
+	if (dir == NULL) {
+		return false;
+	}
+
+	while (fts_read(dir) != NULL) {
+		FTSENT* current = fts_children(dir, 0);
+		for (; current != NULL; current = current->fts_link) {
+			if ((current->fts_info & FTS_D) == 0 ||
+					(current->fts_info & FTS_DOT)) {
+				continue;
+			}
+
+			fn(current->fts_name, arg);
+		}
+	}
+
+	return fts_close(dir) == 0;
+}
+
 StatResult
 fs_metadata(char* path)
 {

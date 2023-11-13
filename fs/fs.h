@@ -45,6 +45,10 @@ StatResult fs_metadata(char* path);
 // Returns false if the directory couldn't be opened for some reason.
 bool fs_foreach_file(char* dirname, bool (*fn)(char*, void*), void* arg);
 
+// fs_foreach_dir does the same thing as fs_foreach_file, but for directories.
+// The folders "." and ".." are skipped on POSIX-like operating systems.
+bool fs_foreach_dir(char* dirname, bool (*fn)(char*, void*), void* arg);
+
 // Given a path relative to the current path, fs_resolve resolves a it to a
 // path relative to the root directory (/).
 //
