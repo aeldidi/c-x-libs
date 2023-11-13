@@ -50,7 +50,7 @@ fs_resolve(Arena* mem, Arena scratch, char* name)
 
 	// stat doesn't include a NUL terminator (if one is present) in
 	// st_size. This means we should never have nread = len.
-	assert(nread != len);
+	assert((size_t)nread != len);
 
 	// If the file we want to resolve is a symlink to a another symlink
 	// which links to the first one (a -> b and b -> a), this is an
